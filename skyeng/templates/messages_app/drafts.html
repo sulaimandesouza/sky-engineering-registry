@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyEng - Drafts</title>
+    <!-- Shared team stylesheet -->
+    <link rel="stylesheet" href="{% static 'skyeng.css' %}">
+</head>
+<body>
+
+<div class="topnav">
+    <img src="{% static 'images/skyLogo.png' %}" alt="sky logo" class="logo-img">
+    <a href="/">Dashboard</a>
+    <a href="/teams/">Teams</a>
+    <a href="#">Organisation</a>
+    <a href="/messages_app/" class="active">Messages</a>
+    <a href="/schedule/">Schedule</a>
+    <a href="/reports/">Reports</a>
+    <a href="/settings/" class="settings-btn">⚙ Settings</a>
+    <!-- Show logged in user initials -->
+    <div class="avatar">{{ request.user.username|slice:":2"|upper }}</div>
+</div>
+
+<div class="layout">
+    <div class="sidebar">
+        <span class="section-label">Main Menu</span>
+        <a href="/">🏠 Dashboard</a>
+        <a href="/teams/">👥 Teams</a>
+        <a href="#">🏫 Organisation</a>
+        <a href="/messages_app/" class="active">✉️ Messages</a>
+        <a href="/schedule/">📅 Schedule</a>
+        <a href="/reports/">📊 Reports</a>
+        <span class="section-label">Account</span>
+        {% if user.is_authenticated %}
+        <a href="/logout/">🚪 Log Out</a>
+        {% else %}
+        <a href="/login/">👤 Log In</a>
+        <a href="/signup/">📝 Sign Up</a>
+        {% endif %}
+    </div>
+
+    <div class="main">
+        <div class="page-header">
+            <h1>Messages — <span>DRAFTS</span></h1>
+            <a href="/messages_app/compose/" class="new-draft-btn">+ New Draft</a>
+        </div>
+
+        <!-- Search drafts -->
+        <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" placeholder="Search drafts...">
+        </div>
+
+        <div class="messages-container">
+            <div class="folder-sidebar">
+                <a href="/messages_app/compose/" class="new-msg-btn">+ New Draft</a>
+                <span class="folder-label">Folders</span>
+                <a href="/messages_app/inbox/">Inbox <span class="folder-badge">3</span></a>
+                <a href="/messages_app/sent/">Sent</a>
+                <a href="/messages_app/drafts/" class="active">Drafts</a>
+                <a href="/messages_app/trash/">Trash</a>
+            </div>
+
+            <div class="message-list">
+                <div class="message-list-header">Drafts</div>
+                {% for message in messages %}
+                <a href="/messages_app/view/draft/{{ message.id }}/" class="message-item">
+                    <div class="top-row">
+                        <span class="sender">To: {{ message.receiver }} (DRAFT)</span>
+                        <span class="time">{{ message.created_at|date:"H:i" }}</span>
+                    </div>
+                    <div class="subject">{{ message.subject }}</div>
+                </a>
+                {% empty %}
+                <p style="padding:16px; color:#aaa; font-size:13px;">No drafts saved.</p>
+                {% endfor %}
+            </div>
+
+            <div class="message-detail">
+                {% if selected %}
+                <div class="detail-header">
+                    <div class="subject">{{ selected.subject }}</div>
+                </div>
+                <div class="detail-meta">
+                    <span>To: {{ selected.receiver }} — Status: Draft</span>
+                </div>
+                <div class="detail-body">{{ selected.body }}</div>
+                <div class="detail-actions">
+                    <a href="#" class="btn btn-primary">Send</a>
+                    <a href="#" class="btn btn-secondary">Edit</a>
+                    <a href="/messages_app/delete/{{ selected.id }}/" class="btn btn-danger">Delete</a>
+                </div>
+                {% else %}
+                <div style="padding:24px; color:#aaa; font-size:13px;">
+                    Select a draft to read it.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="footer-note">
+            Drafts — Saved drafts shown here. Click Edit to continue writing.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

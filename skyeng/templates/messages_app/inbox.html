@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyEng - Inbox</title>
+    <!-- Shared team stylesheet -->
+    <link rel="stylesheet" href="{% static 'skyeng.css' %}">
+</head>
+<body>
+
+<div class="topnav">
+    <img src="{% static 'images/skyLogo.png' %}" alt="sky logo" class="logo-img">
+    <a href="/">Dashboard</a>
+    <a href="/teams/">Teams</a>
+    <a href="#">Organisation</a>
+    <a href="/messages_app/" class="active">Messages</a>
+    <a href="/schedule/">Schedule</a>
+    <a href="/reports/">Reports</a>
+    <a href="/settings/" class="settings-btn">⚙ Settings</a>
+    <!-- Show logged in user initials -->
+    <div class="avatar">{{ request.user.username|slice:":2"|upper }}</div>
+</div>
+
+<div class="layout">
+    <div class="sidebar">
+        <span class="section-label">Main Menu</span>
+        <a href="/">🏠 Dashboard</a>
+        <a href="/teams/">👥 Teams</a>
+        <a href="#">🏫 Organisation</a>
+        <a href="/messages_app/" class="active">✉️ Messages</a>
+        <a href="/schedule/">📅 Schedule</a>
+        <a href="/reports/">📊 Reports</a>
+        <span class="section-label">Account</span>
+        {% if user.is_authenticated %}
+        <a href="/logout/">🚪 Log Out</a>
+        {% else %}
+        <a href="/login/">👤 Log In</a>
+        <a href="/signup/">📝 Sign Up</a>
+        {% endif %}
+    </div>
+
+    <div class="main">
+        <div class="page-header">
+            <h1>Messages — <span>INBOX</span></h1>
+            <a href="/messages_app/compose/" class="new-draft-btn">+ New Draft</a>
+        </div>
+
+        <!-- Search bar - filters messages by subject or sender -->
+        <form method="GET" action="/messages_app/inbox/">
+            <div class="search-bar">
+                <span>🔍</span>
+                <input type="text" name="q" placeholder="Search inbox..." value="{{ query|default:'' }}">
+            </div>
+        </form>
+
+        <div class="messages-container">
+            <div class="folder-sidebar">
+                <a href="/messages_app/compose/" class="new-msg-btn">+ New Draft</a>
+                <span class="folder-label">Folders</span>
+                <a href="/messages_app/inbox/" class="active">Inbox <span class="folder-badge">3</span></a>
+                <a href="/messages_app/sent/">Sent</a>
+                <a href="/messages_app/drafts/">Drafts <span class="folder-badge orange">1</span></a>
+                <a href="/messages_app/trash/">Trash</a>
+            </div>
+
+            <div class="message-list">
+                <div class="message-list-header">Inbox</div>
+
+                {% for message in messages %}
+                <a href="/messages_app/view/{{ message.id }}/" class="message-item {% if not message.is_read %}unread{% endif %}">
+                    {% if not message.is_read %}<div class="unread-bar"></div>{% endif %}
+                    <div class="top-row">
+                        <span class="sender">{{ message.sender }}</span>
+                        <span class="time">{{ message.created_at|date:"H:i" }}</span>
+                    </div>
+                    <div class="subject">{{ message.subject }}</div>
+                    <div class="read-tag {% if message.is_read %}read-tag-label{% else %}unread-tag{% endif %}">
+                        {% if message.is_read %}READ{% else %}UNREAD{% endif %}
+                    </div>
+                </a>
+                {% empty %}
+                <p style="padding:16px; color:#aaa; font-size:13px;">No messages in inbox.</p>
+                {% endfor %}
+            </div>
+
+            <div class="message-detail">
+                {% if selected %}
+                <div class="detail-header">
+                    <div class="subject">{{ selected.subject }}</div>
+                </div>
+                <div class="detail-meta">
+                    <span>From: {{ selected.sender }}</span>
+                    <span>{{ selected.created_at|date:"d/m/Y H:i" }}</span>
+                </div>
+                <div class="detail-body">{{ selected.body }}</div>
+                <div class="detail-actions">
+                    <a href="#" class="btn btn-dark">reply</a>
+                    <a href="#" class="btn btn-dark">foward</a>
+                    <a href="/messages_app/delete/{{ selected.id }}/" class="btn btn-danger">Delete</a>
+                </div>
+                {% else %}
+                <div style="padding:24px; color:#aaa; font-size:13px;">
+                    Select a message to read it.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="footer-note">
+            Inbox — UNREAD shown in blue, READ in grey. Click message to open.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+[
+  {
+    "model": "reports_app.department",
+    "pk": 1,
+    "fields": {
+      "name": "Department One"
+    }
+  },
+  {
+    "model": "reports_app.team",
+    "pk": 1,
+    "fields": {
+      "name": "Team One",
+      "department": 1,
+      "leader": 1,
+      "active": true,
+      "skills": "Basic engineering skills.",
+      "downstream":[2]
+    }
+  },
+  {
+    "model": "reports_app.engineer",
+    "pk": 1,
+    "fields": {
+      "name": "Engineer One",
+      "team": 1
+    }
+  },
+  {
+    "model": "reports_app.department",
+    "pk": 2,
+    "fields": {
+      "name": "Department Two"
+    }
+  },
+  {
+    "model": "reports_app.team",
+    "pk": 2,
+    "fields": {
+      "name": "Team Two",
+      "department": 2,
+      "leader": 2,
+      "active": false,
+      "skills": "General skills beyond basic engineering."
+    }
+  },
+  {
+    "model": "reports_app.engineer",
+    "pk": 2,
+    "fields": {
+      "name": "Engineer One",
+      "team": 2
+    }
+  }
+]
