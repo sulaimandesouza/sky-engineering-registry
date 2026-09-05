@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyEng</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+
+        .topnav {
+            background: #0f1117;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .topnav .logo { font-weight: bold; font-size: 18px; color: white; margin-right: 20px; }
+        .topnav a { color: #aaa; text-decoration: none; font-size: 14px; padding: 6px 12px; border-radius: 4px; }
+        .topnav a.active { color: white; background: rgba(255,255,255,0.1); }
+
+        .layout { display: flex; height: calc(100vh - 45px); }
+
+        .sidebar {
+            width: 210px;
+            background: #1c1f26;
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar .section-label { color: #555; font-size: 11px; padding: 16px 20px 6px; text-transform: uppercase; }
+        .sidebar a { color: #aaa; text-decoration: none; padding: 10px 20px; font-size: 14px; }
+        .sidebar a:hover { color: white; }
+        .sidebar a.active { color: white; background: #2563eb; }
+
+        .main { flex: 1; background: #f5f6fa; padding: 30px; overflow-y: auto; }
+        .main h2 { font-size: 24px; }
+        .main h2 span { color: #2563eb; }
+        .main p { color: #888; margin-top: 4px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<div class="topnav">
+    <span class="logo">SkyEng</span>
+    <a href="{% url 'dashboard' %}" class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">Dashboard</a>
+    <a href="#">Teams</a>
+    <a href="#">Organisation</a>
+    <a href="#">Messages</a>
+    <a href="#">Schedule</a>
+    <a href="#">Reports</a>
+</div>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <span class="section-label">Main Menu</span>
+        <a href="#" class="active">Dashboard</a>
+        <a href="#">Teams</a>
+        <a href="#">Organisation</a>
+        <a href="#">Messages</a>
+        <a href="#">Schedule</a>
+        <a href="#">Reports</a>
+        <span class="section-label">Account</span>
+        <a href="#">My Profile</a>
+        <a href="#">Log Out</a>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+        
+        <p>Welcome to SkyEng</p>
+
+        <!-- add your content here -->
+
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'skyeng.css' %}">
+
+<link href="https://unpkg.com/fullcalendar@6.1.10/index.global.min.css" rel="stylesheet">
+
+<div class="schedule-header">
+    <h2>📅 Schedule</h2>
+    <p>Team calendar and meeting planner</p>
+</div>
+
+<div class="schedule-layout">
+
+    <div class="calendar-area">
+        <div id="calendar"></div>
+    </div>
+
+    <div class="side-panel">
+
+        <div class="panel-box">
+            <h4>Upcoming Meetings</h4>
+            {% if upcoming %}
+                {% for meeting in upcoming %}
+                <div class="meeting-item">
+                    <div class="meeting-title">{{ meeting.title }}</div>
+                    <div class="meeting-time">{{ meeting.date }} · {{ meeting.start_time|time:"H:i" }}</div>
+                    <div class="meeting-team">{{ meeting.team }}</div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-meetings">No upcoming meetings</div>
+            {% endif %}
+        </div>
+
+        <div class="panel-box">
+            <h4>Teams</h4>
+            {% for team in teams %}
+            <div class="team-legend-item">
+                <span class="team-dot"></span>
+                {{ team.name }}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="panel-box">
+            <h4>New Meeting</h4>
+            <button class="btn-add" onclick="openModal()">+ Schedule Meeting</button>
+        </div>
+
+    </div>
+</div>
+
+<!-- MODAL -->
+<div class="meeting-overlay" id="modalOverlay" onclick="closeOnBackdrop(event)">
+    <div class="meeting-box">
+        <button class="meeting-close" onclick="closeModal()">✕</button>
+        <h3>📅 Schedule a Meeting</h3>
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label>Title</label>
+                {{ form.title }}
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half">
+                    <label>Date</label>
+                    {{ form.date }}
+                </div>
+                <div class="form-group half">
+                    <label>Platform</label>
+                    {{ form.platform }}
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group half">
+                    <label>Start Time</label>
+                    {{ form.start_time }}
+                </div>
+                <div class="form-group half">
+                    <label>End Time</label>
+                    {{ form.end_time }}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Required Attendees</label>
+                <small class="field-hint">Hold Ctrl / Cmd to select multiple</small>
+                {{ form.required_attendees }}
+            </div>
+
+            <div class="form-group">
+                <label>Optional Attendees</label>
+                <small class="field-hint">Hold Ctrl / Cmd to select multiple</small>
+                {{ form.optional_attendees }}
+            </div>
+
+            <div class="form-group">
+                <label>Description</label>
+                {{ form.description }}
+            </div>
+
+            <!-- Кнопка повторения -->
+            <button type="button" class="btn-repeat" onclick="toggleRepeat()">
+                🔁 Set as Repeating Meeting
+            </button>
+
+            <!-- Скрытый блок повторения -->
+            <div id="repeatBlock" class="repeat-block" style="display:none;">
+                <div class="form-group">
+                    <label>Repeat Every</label>
+                    <div class="repeat-row">
+                        <input type="number" id="repeatEvery" class="form-control repeat-num" value="1" min="1">
+                        <select id="repeatUnit" class="form-control">
+                            <option value="day">Day(s)</option>
+                            <option value="week" selected>Week(s)</option>
+                            <option value="month">Month(s)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Days of Week</label>
+                    <div class="days-row">
+                        <label class="day-check"><input type="checkbox" value="MO"> Mon</label>
+                        <label class="day-check"><input type="checkbox" value="TU"> Tue</label>
+                        <label class="day-check"><input type="checkbox" value="WE"> Wed</label>
+                        <label class="day-check"><input type="checkbox" value="TH"> Thu</label>
+                        <label class="day-check"><input type="checkbox" value="FR"> Fri</label>
+                        <label class="day-check"><input type="checkbox" value="SA"> Sat</label>
+                        <label class="day-check"><input type="checkbox" value="SU"> Sun</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>End Date</label>
+                    <input type="date" id="repeatEndDate" class="form-control">
+                </div>
+            </div>
+
+            <button type="submit" class="btn-submit">+ Add Meeting</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://unpkg.com/fullcalendar@6.1.10/index.global.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendar = new FullCalendar.Calendar(document.getElementById('calendar'), {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,listWeek'
+            },
+            buttonText: {
+                today: 'Today',
+                month: 'Month',
+                week: 'Week',
+                list: 'Upcoming'
+            },
+            height: 600,
+            events: '/schedule/meetings/',
+            dateClick: function(info) {
+                document.getElementById('id_date').value = info.dateStr;
+                openModal();
+            },
+            eventClick: function(info) {
+                var p = info.event.extendedProps;
+
+                document.getElementById('detailColorBar').style.background = info.event.backgroundColor;
+                document.getElementById('detailTitle').textContent = info.event.title;
+                document.getElementById('detailDate').textContent = p.date;
+                document.getElementById('detailTime').textContent = p.start_time + ' — ' + p.end_time;
+                document.getElementById('detailPlatform').textContent = p.platform;
+                document.getElementById('detailTeam').textContent = p.team;
+
+                var reqEl = document.getElementById('detailRequired');
+                reqEl.innerHTML = '';
+                if (p.required && p.required.length > 0) {
+                    p.required.forEach(function(name) {
+                        var tag = document.createElement('span');
+                        tag.className = 'attendee-tag required-tag';
+                        tag.textContent = name;
+                        reqEl.appendChild(tag);
+                    });
+                    document.getElementById('detailRequiredBlock').style.display = 'block';
+                } else {
+                    document.getElementById('detailRequiredBlock').style.display = 'none';
+                }
+
+                var optEl = document.getElementById('detailOptional');
+                optEl.innerHTML = '';
+                if (p.optional && p.optional.length > 0) {
+                    p.optional.forEach(function(name) {
+                        var tag = document.createElement('span');
+                        tag.className = 'attendee-tag optional-tag';
+                        tag.textContent = name;
+                        optEl.appendChild(tag);
+                    });
+                    document.getElementById('detailOptionalBlock').style.display = 'block';
+                } else {
+                    document.getElementById('detailOptionalBlock').style.display = 'none';
+                }
+
+                var descEl = document.getElementById('detailDesc');
+                if (p.description) {
+                    descEl.textContent = p.description;
+                    document.getElementById('detailDescBlock').style.display = 'block';
+                } else {
+                    document.getElementById('detailDescBlock').style.display = 'none';
+                }
+
+                document.getElementById('detailOverlay').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            },
+        });
+        calendar.render();
+    });
+
+    function openModal() {
+        document.getElementById('modalOverlay').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+        document.getElementById('modalOverlay').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    function closeOnBackdrop(event) {
+        if (event.target === document.getElementById('modalOverlay')) {
+            closeModal();
+        }
+    }
+
+    function toggleRepeat() {
+    var block = document.getElementById('repeatBlock');
+    var btn = document.querySelector('.btn-repeat');
+    if (block.style.display === 'none') {
+        block.style.display = 'block';
+        btn.textContent = '✕ Remove Repeating';
+        btn.style.borderColor = '#dc2626';
+        btn.style.color = '#dc2626';
+    } else {
+        block.style.display = 'none';
+        btn.textContent = '🔁 Set as Repeating Meeting';
+        btn.style.borderColor = '#2563eb';
+        btn.style.color = '#2563eb';
+    }
+}
+</script>
+<!-- DETAIL MODAL -->
+<div class="meeting-overlay" id="detailOverlay" onclick="closeDetailOnBackdrop(event)">
+    <div class="meeting-box">
+        <button class="meeting-close" onclick="closeDetail()">✕</button>
+
+        <div class="detail-header">
+            <div class="detail-color-bar" id="detailColorBar"></div>
+            <h3 id="detailTitle"></h3>
+        </div>
+
+        <div class="detail-row">
+            <span class="detail-icon">📅</span>
+            <span id="detailDate"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-icon">🕐</span>
+            <span id="detailTime"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-icon">🖥️</span>
+            <span id="detailPlatform"></span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-icon">👥</span>
+            <span id="detailTeam"></span>
+        </div>
+
+        <div class="detail-section" id="detailRequiredBlock">
+            <div class="detail-section-title">✅ Required Attendees</div>
+            <div id="detailRequired" class="detail-tags"></div>
+        </div>
+
+        <div class="detail-section" id="detailOptionalBlock">
+            <div class="detail-section-title">🔵 Optional Attendees</div>
+            <div id="detailOptional" class="detail-tags"></div>
+        </div>
+
+        <div class="detail-section" id="detailDescBlock">
+            <div class="detail-section-title">📝 Description</div>
+            <div id="detailDesc" class="detail-desc-text"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}

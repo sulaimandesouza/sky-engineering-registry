@@ -1,0 +1,267 @@
+[
+  {
+    "model": "teams_app.department",
+    "pk": 1,
+    "fields": {
+      "name": "Software Engineering"
+    }
+  },
+  {
+    "model": "teams_app.department",
+    "pk": 2,
+    "fields": {
+      "name": "Infrastructure"
+    }
+  },
+  {
+    "model": "teams_app.department",
+    "pk": 3,
+    "fields": {
+      "name": "Data & AI"
+    }
+  },
+  {
+    "model": "teams_app.department",
+    "pk": 4,
+    "fields": {
+      "name": "Cyber Security"
+    }
+  },
+
+  {
+    "model": "teams_app.team",
+    "pk": 1,
+    "fields": {
+      "name": "Backend Engineering",
+      "department": 1,
+      "leader": 1,
+      "active": true,
+      "skills": "Python, Django, REST APIs, SQL",
+      "email": "backend@skyeng.example.com",
+      "downstream": [3]
+    }
+  },
+  {
+    "model": "teams_app.team",
+    "pk": 2,
+    "fields": {
+      "name": "Frontend Engineering",
+      "department": 1,
+      "leader": 5,
+      "active": true,
+      "skills": "JavaScript, HTML, CSS, React",
+      "email": "frontend@skyeng.example.com",
+      "downstream": [1]
+    }
+  },
+  {
+    "model": "teams_app.team",
+    "pk": 3,
+    "fields": {
+      "name": "Cloud & Platform",
+      "department": 2,
+      "leader": 9,
+      "active": true,
+      "skills": "AWS, Docker, Linux, CI/CD",
+      "email": "platform@skyeng.example.com",
+      "downstream": []
+    }
+  },
+  {
+    "model": "teams_app.team",
+    "pk": 4,
+    "fields": {
+      "name": "Data Engineering",
+      "department": 3,
+      "leader": 12,
+      "active": true,
+      "skills": "Python, SQL, Data Pipelines, PostgreSQL",
+      "email": "data@skyeng.example.com",
+      "downstream": [3]
+    }
+  },
+  {
+    "model": "teams_app.team",
+    "pk": 5,
+    "fields": {
+      "name": "Security Engineering",
+      "department": 4,
+      "leader": 15,
+      "active": true,
+      "skills": "Cyber Security, Network Security, SIEM, Risk",
+      "email": "security@skyeng.example.com",
+      "downstream": [3]
+    }
+  },
+  {
+    "model": "teams_app.team",
+    "pk": 6,
+    "fields": {
+      "name": "Legacy Systems",
+      "department": 1,
+      "leader": 18,
+      "active": false,
+      "skills": "Java, SQL, Legacy Systems, Maintenance",
+      "email": "legacy@skyeng.example.com",
+      "downstream": [1]
+    }
+  },
+
+  {
+    "model": "teams_app.engineer",
+    "pk": 1,
+    "fields": {
+      "name": "Daniel Carter",
+      "team": 1
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 2,
+    "fields": {
+      "name": "Aisha Khan",
+      "team": 1
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 3,
+    "fields": {
+      "name": "Oliver Bennett",
+      "team": 1
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 4,
+    "fields": {
+      "name": "Maya Patel",
+      "team": 1
+    }
+  },
+
+  {
+    "model": "teams_app.engineer",
+    "pk": 5,
+    "fields": {
+      "name": "Sophie Turner",
+      "team": 2
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 6,
+    "fields": {
+      "name": "Adam Wilson",
+      "team": 2
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 7,
+    "fields": {
+      "name": "Leah Ahmed",
+      "team": 2
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 8,
+    "fields": {
+      "name": "Noah Williams",
+      "team": 2
+    }
+  },
+
+  {
+    "model": "teams_app.engineer",
+    "pk": 9,
+    "fields": {
+      "name": "James Mitchell",
+      "team": 3
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 10,
+    "fields": {
+      "name": "Emily Roberts",
+      "team": 3
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 11,
+    "fields": {
+      "name": "Ethan Clarke",
+      "team": 3
+    }
+  },
+
+  {
+    "model": "teams_app.engineer",
+    "pk": 12,
+    "fields": {
+      "name": "Amelia Hughes",
+      "team": 4
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 13,
+    "fields": {
+      "name": "Ryan Thompson",
+      "team": 4
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 14,
+    "fields": {
+      "name": "Isla Morgan",
+      "team": 4
+    }
+  },
+
+  {
+    "model": "teams_app.engineer",
+    "pk": 15,
+    "fields": {
+      "name": "Thomas Evans",
+      "team": 5
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 16,
+    "fields": {
+      "name": "Hannah Cooper",
+      "team": 5
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 17,
+    "fields": {
+      "name": "Zachary Lewis",
+      "team": 5
+    }
+  },
+
+  {
+    "model": "teams_app.engineer",
+    "pk": 18,
+    "fields": {
+      "name": "George Walker",
+      "team": 6
+    }
+  },
+  {
+    "model": "teams_app.engineer",
+    "pk": 19,
+    "fields": {
+      "name": "Grace Murphy",
+      "team": 6
+    }
+  }
+]

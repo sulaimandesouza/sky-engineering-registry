@@ -1,0 +1,483 @@
+/* ============================================================
+   skyeng.css  –  Shared stylesheet for the SkyEng web app
+   Team E | 5COSC021W Software Development Group Project
+   ============================================================
+   HOW TO USE IN YOUR TEMPLATE:
+   1. Place this file in:  skyeng/static/skyeng.css
+   2. At the top of your HTML add:   {% load static %}
+   3. Inside <head> add:
+      <link rel="stylesheet" href="{% static 'skyeng.css' %}">
+   ============================================================ */
+
+/* ---------- Reset / Base ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* ---------- Top Navigation Bar ---------- */
+.topnav {
+    background: #0f1117;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 45px;
+}
+
+.topnav .logo {
+    font-weight: bold;
+    font-size: 18px;
+    color: white;
+    margin-right: 20px;
+}
+
+.topnav a {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo-img {
+    height: 40px;
+    width: auto;
+}
+
+.topnav a.active {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.topnav .settings-btn {
+    margin-left: auto;
+    color: #aaa;
+    font-size: 13px;
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 1px solid #333;
+    border-radius: 4px;
+}
+
+/* User avatar circle in top nav */
+.topnav .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    margin-left: 8px;
+}
+
+/* ---------- Page Layout (sidebar + main) ---------- */
+.layout {
+    display: flex;
+    height: calc(100vh - 45px);
+}
+
+/* ---------- Sidebar ---------- */
+.sidebar {
+    width: 210px;
+    background: #1c1f26;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar .logo-side {
+    font-weight: bold;
+    font-size: 16px;
+    color: white;
+    padding: 0 20px 16px;
+}
+
+.sidebar .section-label {
+    color: #555;
+    font-size: 11px;
+    padding: 16px 20px 6px;
+    text-transform: uppercase;
+}
+
+.sidebar a {
+    color: #aaa;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.sidebar a:hover {
+    color: white;
+}
+
+.sidebar a.active {
+    color: white;
+    background: #2563eb;
+}
+
+/* Unread badge in sidebar */
+.sidebar .badge-side {
+    background: white;
+    color: #2563eb;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-weight: bold;
+}
+
+/* ---------- Main Content Area ---------- */
+.main {
+    flex: 1;
+    background: #f5f6fa;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.main h2 {
+    font-size: 24px;
+}
+
+.main h2 span {
+    color: #2563eb;
+}
+
+.main p {
+    color: #888;
+    margin-top: 4px;
+    font-size: 14px;
+}
+
+/* ---------- Schedule Page ---------- */
+
+.schedule-header { margin-bottom: 24px; }
+.schedule-header h2 { font-size: 24px; color: #1c1f26; }
+.schedule-header p { color: #888; font-size: 14px; margin-top: 4px; }
+
+.schedule-layout {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+}
+.calendar-area {
+    flex: 1;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    min-width: 0;
+}
+.side-panel {
+    width: 280px;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Panel boxes */
+.panel-box {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+.panel-box h4 {
+    font-size: 14px;
+    font-weight: bold;
+    color: #1c1f26;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Meeting items */
+.meeting-item {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 13px;
+}
+.meeting-item:last-child { border-bottom: none; }
+.meeting-title { font-weight: bold; color: #1c1f26; }
+.meeting-time { color: #2563eb; margin-top: 2px; }
+.meeting-team { color: #888; margin-top: 2px; }
+.no-meetings { color: #aaa; font-size: 13px; text-align: center; padding: 20px 0; }
+
+/* Teams legend */
+.team-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    font-size: 13px;
+    color: #444;
+    border-bottom: 1px solid #f0f0f0;
+}
+.team-legend-item:last-child { border-bottom: none; }
+.team-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #2563eb;
+    flex-shrink: 0;
+}
+
+/* Buttons */
+.btn-add {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.btn-add:hover { background: #1d4ed8; }
+.btn-submit {
+    width: 100%;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 6px;
+}
+.btn-submit:hover { background: #1d4ed8; }
+
+/* Form */
+.form-group { margin-bottom: 14px; }
+.form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+.form-group .form-control {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+.form-group .form-control:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+/* Modal overlay */
+.meeting-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+.meeting-overlay.active { display: flex; }
+.meeting-box {
+    background: white;
+    border-radius: 10px;
+    padding: 30px;
+    width: 460px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+.meeting-box h3 { font-size: 18px; color: #1c1f26; margin-bottom: 20px; }
+.meeting-close {
+    position: absolute;
+    top: 16px; right: 20px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: #888;
+}
+.meeting-close:hover { color: #1c1f26; }
+
+/* Form layout */
+.form-row { display: flex; gap: 12px; }
+.form-group.half { flex: 1; }
+.field-hint { display: block; font-size: 11px; color: #aaa; margin-bottom: 4px; }
+
+/* Repeat button */
+.btn-repeat {
+    width: 100%;
+    background: none;
+    border: 1px dashed #2563eb;
+    color: #2563eb;
+    padding: 8px;
+    border-radius: 6px;
+    font-size: 13px;
+    cursor: pointer;
+    margin-bottom: 12px;
+}
+.btn-repeat:hover { background: #eff6ff; }
+
+/* Repeat block */
+.repeat-block {
+    background: #f8faff;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+}
+.repeat-row { display: flex; gap: 8px; }
+.repeat-num { width: 70px; }
+.days-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 4px; }
+.day-check {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: #444;
+    cursor: pointer;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 8px;
+}
+.day-check input { margin: 0; }
+
+/* Detail modal */
+.detail-color-bar { width: 6px; height: 36px; border-radius: 3px; flex-shrink: 0; }
+.detail-header h3 { font-size: 18px; color: #1c1f26; margin: 0; }
+.detail-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #444;
+}
+.detail-icon { font-size: 16px; width: 24px; text-align: center; }
+.detail-section { margin-top: 16px; }
+.detail-section-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+.detail-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.attendee-tag { padding: 4px 10px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+.required-tag { background: #dcfce7; color: #16a34a; }
+.optional-tag { background: #dbeafe; color: #2563eb; }
+.detail-desc-text {
+    font-size: 14px;
+    color: #555;
+    line-height: 1.5;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+
+/* ============================================================
+   Student 3 - Messages App Styles
+   messages_app templates use these classes
+   ============================================================ */
+
+/* Page header with title and action button */
+.page-header { padding: 20px 24px 12px; display: flex; align-items: center; justify-content: space-between; }
+.page-header h1 { font-size: 22px; color: #111; }
+.page-header h1 span { color: #2563eb; }
+.new-draft-btn { background: #2563eb; color: white; text-decoration: none; padding: 8px 18px; border-radius: 6px; font-size: 13px; font-weight: bold; }
+.new-draft-btn:hover { background: #1d4ed8; }
+
+/* Search bar */
+.search-bar { margin: 0 24px 12px; display: flex; align-items: center; background: white; border: 1px solid #e5e7eb; border-radius: 6px; padding: 8px 12px; gap: 8px; }
+.search-bar input { border: none; outline: none; font-size: 13px; color: #333; width: 100%; background: transparent; }
+.search-bar span { color: #aaa; }
+
+/* Messages 3-panel container */
+.messages-container { display: flex; flex: 1; overflow: hidden; margin: 0 24px 24px; background: white; border-radius: 8px; border: 1px solid #e5e7eb; }
+
+/* Folder sidebar (Inbox / Sent / Drafts / Trash) */
+.folder-sidebar { width: 180px; border-right: 1px solid #e5e7eb; padding: 12px 0; display: flex; flex-direction: column; }
+.new-msg-btn { margin: 0 12px 12px; background: #2563eb; color: white; text-decoration: none; padding: 8px 12px; border-radius: 6px; font-size: 13px; text-align: center; display: block; font-weight: bold; }
+.new-msg-btn:hover { background: #1d4ed8; }
+.folder-label { color: #888; font-size: 10px; padding: 8px 16px 4px; text-transform: uppercase; letter-spacing: 1px; }
+.folder-sidebar a { color: #555; text-decoration: none; padding: 8px 16px; font-size: 13px; display: flex; align-items: center; justify-content: space-between; }
+.folder-sidebar a:hover { background: #f5f6fa; color: #111; }
+.folder-sidebar a.active { color: #2563eb; font-weight: bold; }
+.folder-badge { background: #2563eb; color: white; font-size: 10px; padding: 2px 7px; border-radius: 10px; }
+.folder-badge.orange { background: #f59e0b; }
+
+/* Message list panel */
+.message-list { width: 250px; border-right: 1px solid #e5e7eb; overflow-y: auto; display: flex; flex-direction: column; }
+.message-list-header { padding: 12px 16px; font-weight: bold; font-size: 14px; color: #111; border-bottom: 1px solid #e5e7eb; }
+.message-item { padding: 12px 16px; border-bottom: 1px solid #f0f0f0; cursor: pointer; text-decoration: none; display: block; color: #333; position: relative; }
+.message-item:hover { background: #f9fafb; }
+.message-item .top-row { display: flex; justify-content: space-between; align-items: center; }
+.message-item .sender { font-weight: bold; font-size: 13px; color: #111; }
+.message-item .time { font-size: 11px; color: #aaa; }
+.message-item .subject { font-size: 12px; color: #666; margin-top: 3px; }
+
+/* Unread message styling */
+.message-item.unread { background: #eff6ff; }
+.message-item.unread .sender { color: #1d4ed8; }
+.unread-bar { width: 4px; height: 100%; background: #2563eb; position: absolute; left: 0; top: 0; border-radius: 2px; }
+
+/* Read / Unread tags */
+.read-tag { font-size: 10px; padding: 2px 6px; border-radius: 3px; margin-top: 4px; display: inline-block; }
+.unread-tag { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+.read-tag-label { background: #f3f4f6; color: #9ca3af; border: 1px solid #e5e7eb; }
+
+/* Message detail panel */
+.message-detail { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+.detail-header { padding: 14px 16px; border-bottom: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: space-between; }
+.detail-header .subject { font-size: 15px; font-weight: bold; color: #111; }
+.detail-meta { padding: 10px 16px; font-size: 12px; color: #888; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; }
+.detail-body { flex: 1; padding: 16px; font-size: 14px; color: #333; line-height: 1.6; overflow-y: auto; }
+.detail-actions { padding: 12px 16px; border-top: 1px solid #e5e7eb; display: flex; gap: 8px; }
+
+/* Buttons used in messages app */
+.btn { padding: 7px 18px; border-radius: 5px; font-size: 13px; cursor: pointer; border: none; text-decoration: none; display: inline-block; }
+.btn-dark { background: #1f2937; color: white; }
+.btn-dark:hover { background: #111827; }
+.btn-danger { background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; }
+.btn-danger:hover { background: #fecaca; }
+.btn-primary { background: #2563eb; color: white; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-secondary { background: #e5e7eb; color: #333; }
+.btn-secondary:hover { background: #d1d5db; }
+.deleted-badge { background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; font-size: 12px; padding: 4px 10px; border-radius: 4px; font-weight: bold; }
+
+/* Compose message form */
+.compose-form { flex: 1; padding: 20px; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+.compose-form input { width: 100%; padding: 9px 12px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px; outline: none; }
+.compose-form input:focus { border-color: #2563eb; }
+.compose-form textarea { flex: 1; width: 100%; padding: 9px 12px; border: 1px solid #e5e7eb; border-radius: 6px; font-size: 13px; outline: none; resize: none; min-height: 200px; font-family: Arial, sans-serif; }
+.compose-form textarea:focus { border-color: #2563eb; }
+
+/* Footer note at bottom of messages pages */
+.footer-note { padding: 6px 24px; font-size: 11px; color: #aaa; background: white; border-top: 1px solid #e5e7eb; }

@@ -1,0 +1,175 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="container">
+
+    <a href="{% url 'teams' %}" class="btn">
+        ⬅ Back to Team Directory
+    </a>
+    <!-- Team Name Card-->
+    <div class="card shadow-sm mb-4">
+        <div class="container mt-3">
+            <h2><strong>{{ team.name }}</strong></h2>
+        </div>
+
+        <div class="container">
+            <p>{{ team.department.name }} <b>·</b> Led by {{ team.leader }} <b>·</b> {% if team.active %}
+                    <span class="badge bg-success">Active</span>
+                {% else %}
+                    <span class="badge bg-danger">Inactive</span>
+                {% endif %}</p>
+            <div> 
+                <!---https://getbootstrap.com/docs/5.3/components/modal/#how-it-works-->
+                <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#scheduleMeetingModal">📅 Schedule Meeting </button>
+                <button type="button" class="btn btn-secondary mb-3" data-bs-toggle="modal" data-bs-target="#emailTeamModal">✉️ Email Team </button>
+                {% if user.is_staff %}
+                    <a href="/admin/" class="btn btn-warning mb-3">🛠️ Edit Team Details</a>
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+
+
+    <!--Schedule Meeting Modal-->
+    <div class="modal fade" id="scheduleMeetingModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">📅 Schedule Meeting with {{ team.name }} </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            <form action="#">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Meeting Subject:</label>
+                        <input type="text" class="form-control" name="meeting_subject" placeholder="Enter meeting subject here...">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Meeting Date:</label>
+                        <input type="date" class="form-control" name="meeting_date">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Meeting Time:</label>
+                        <input type="time" class="form-control" name="meeting_time">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Meeting Location/Link:</label>
+                        <input type="text" class="form-control" name="meeting_loc_link" placeholder="e.g. Conference Room A or https://teams.live.com">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Schedule Meeting</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    <!--Email Team Modal-->
+
+        <div class="modal fade" id="emailTeamModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="staticBackdropLabel">✉️ Email {{ team.name }} </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            <form action="#">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">To:</label>
+                        <input type="email" class="form-control" name="email_to" value="{{  team.email  }}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Subject:</label>
+                        <input type="text" class="form-control" name="email_subject" placeholder="Enter email subject">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Message:</label>
+                        <textarea class="form-control" name="message" rows="3" placeholder="Enter your message"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Email</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!--Team Members and Team Skills Row-->
+    <div class="row mb-4">
+
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4>👥 Team Members ({{ engineers_count }})</h4>
+
+                        <ul style="grid-template-columns: 1fr;" class ="d-grid row-gap-3 list-group">
+                            {% for enginner in engineers %}
+                                <li class ="list-group-item list-group-item-light p-2">{{ enginner.name }}</li>
+                            {% endfor %}
+                        </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4>💪 Team Skills</h4>
+                    {% for skill in skills %}
+                        <span class="badge rounded-pill text-bg-secondary">
+                            {{ skill }}
+                        </span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Upstream Dependencies & Downstream Dependencies Row-->
+    <div class="row mb-4">
+
+        <div class ="col-md-6">
+            <div class = "card shadow-sm h-100">
+                <div class="card-body">
+                    <h4>⬆️ Upstream Dependencies</h4>
+                    <ul class="list-group list-group-flush">
+                        {% for dependency in upstream %}
+                            <li class="list-group-item list-group-item-action list-group-item-success">
+                                <a href="{% url 'team_detail' dependency.id %}" class="text-decoration-none text-dark">
+                                    {{ dependency.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class ="col-md-6">
+            <div class = "card shadow-sm h-100">
+                <div class="card-body">
+                    <h4>⬇️ Downstream Dependencies</h4>
+                    <ul class="list-group list-group-flush">
+                        {% for dependency in downstream %}
+                            <li class="list-group-item list-group-item-action list-group-item-danger">
+                                <a href="{% url 'team_detail' dependency.id %}" class="text-decoration-none text-dark">
+                                    {{ dependency.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+</div>
+
+{% endblock %}

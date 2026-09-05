@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyEng - Trash</title>
+    <!-- Shared team stylesheet -->
+    <link rel="stylesheet" href="{% static 'skyeng.css' %}">
+</head>
+<body>
+
+<div class="topnav">
+    <img src="{% static 'images/skyLogo.png' %}" alt="sky logo" class="logo-img">
+    <a href="/">Dashboard</a>
+    <a href="/teams/">Teams</a>
+    <a href="#">Organisation</a>
+    <a href="/messages_app/" class="active">Messages</a>
+    <a href="/schedule/">Schedule</a>
+    <a href="/reports/">Reports</a>
+    <a href="/settings/" class="settings-btn">⚙ Settings</a>
+    <!-- Show logged in user initials -->
+    <div class="avatar">{{ request.user.username|slice:":2"|upper }}</div>
+</div>
+
+<div class="layout">
+    <div class="sidebar">
+        <span class="section-label">Main Menu</span>
+        <a href="/">🏠 Dashboard</a>
+        <a href="/teams/">👥 Teams</a>
+        <a href="#">🏫 Organisation</a>
+        <a href="/messages_app/" class="active">✉️ Messages</a>
+        <a href="/schedule/">📅 Schedule</a>
+        <a href="/reports/">📊 Reports</a>
+        <span class="section-label">Account</span>
+        {% if user.is_authenticated %}
+        <a href="/logout/">🚪 Log Out</a>
+        {% else %}
+        <a href="/login/">👤 Log In</a>
+        <a href="/signup/">📝 Sign Up</a>
+        {% endif %}
+    </div>
+
+    <div class="main">
+        <div class="page-header">
+            <h1>Messages — <span>TRASH</span></h1>
+            <a href="/messages_app/compose/" class="new-draft-btn">+ New Draft</a>
+        </div>
+
+        <div class="messages-container">
+            <div class="folder-sidebar">
+                <a href="/messages_app/compose/" class="new-msg-btn">+ New Draft</a>
+                <span class="folder-label">Folders</span>
+                <a href="/messages_app/inbox/">Inbox <span class="folder-badge">3</span></a>
+                <a href="/messages_app/sent/">Sent</a>
+                <a href="/messages_app/drafts/">Drafts</a>
+                <a href="/messages_app/trash/" class="active">Trash</a>
+            </div>
+
+            <div class="message-list">
+                <div class="message-list-header">Trash</div>
+                {% for message in messages %}
+                <a href="/messages_app/view/trash/{{ message.id }}/" class="message-item">
+                    <div class="top-row">
+                        <span class="sender">{{ message.sender }}</span>
+                        <span class="time">{{ message.created_at|date:"H:i" }}</span>
+                    </div>
+                    <div class="subject">{{ message.subject }}</div>
+                </a>
+                {% empty %}
+                <p style="padding:16px; color:#aaa; font-size:13px;">Trash is empty.</p>
+                {% endfor %}
+            </div>
+
+            <div class="message-detail">
+                {% if selected %}
+                <div class="detail-header">
+                    <div class="subject">{{ selected.subject }}</div>
+                    <span class="deleted-badge">🗑 DELETED</span>
+                </div>
+                <div class="detail-meta">
+                    <span>From: {{ selected.sender }} — Expires in 7 days</span>
+                </div>
+                <div class="detail-body">{{ selected.body }}</div>
+                <div class="detail-actions">
+                    <a href="#" class="btn btn-primary">Restore</a>
+                    <a href="#" class="btn btn-danger">Delete Permanently</a>
+                </div>
+                {% else %}
+                <div style="padding:24px; color:#aaa; font-size:13px;">
+                    Select a message to read it.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="footer-note">
+            Trash — Messages are automatically deleted after 7 days.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

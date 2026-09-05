@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SkyEng - Compose</title>
+    <!-- Shared team stylesheet -->
+    <link rel="stylesheet" href="{% static 'skyeng.css' %}">
+</head>
+<body>
+
+<div class="topnav">
+    <img src="{% static 'images/skyLogo.png' %}" alt="sky logo" class="logo-img">
+    <a href="/">Dashboard</a>
+    <a href="/teams/">Teams</a>
+    <a href="#">Organisation</a>
+    <a href="/messages_app/" class="active">Messages</a>
+    <a href="/schedule/">Schedule</a>
+    <a href="/reports/">Reports</a>
+    <a href="/settings/" class="settings-btn">⚙ Settings</a>
+    <!-- Show logged in user initials -->
+    <div class="avatar">{{ request.user.username|slice:":2"|upper }}</div>
+</div>
+
+<div class="layout">
+    <div class="sidebar">
+        <span class="section-label">Main Menu</span>
+        <a href="/">🏠 Dashboard</a>
+        <a href="/teams/">👥 Teams</a>
+        <a href="#">🏫 Organisation</a>
+        <a href="/messages_app/" class="active">✉️ Messages</a>
+        <a href="/schedule/">📅 Schedule</a>
+        <a href="/reports/">📊 Reports</a>
+        <span class="section-label">Account</span>
+        {% if user.is_authenticated %}
+        <a href="/logout/">🚪 Log Out</a>
+        {% else %}
+        <a href="/login/">👤 Log In</a>
+        <a href="/signup/">📝 Sign Up</a>
+        {% endif %}
+    </div>
+
+    <div class="main">
+        <div class="page-header">
+            <h1>Messages — <span>COMPOSE NEW MESSAGE</span></h1>
+        </div>
+
+        <div class="messages-container">
+            <div class="folder-sidebar">
+                <a href="/messages_app/compose/" class="new-msg-btn">+ New Draft</a>
+                <span class="folder-label">Folders</span>
+                <a href="/messages_app/inbox/">Inbox <span class="folder-badge">3</span></a>
+                <a href="/messages_app/sent/">Sent</a>
+                <a href="/messages_app/drafts/">Drafts <span class="folder-badge orange">1</span></a>
+                <a href="/messages_app/trash/">Trash</a>
+            </div>
+
+            <!-- Compose form - handles both Send and Save Draft -->
+            <div class="compose-form">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% if error %}
+                    <p style="color:red; font-size:13px; padding:4px 0;">{{ error }}</p>
+                    {% endif %}
+                    <input type="text" name="receiver" placeholder="TO: Username" required>
+                    <input type="text" name="subject" placeholder="SUBJECT" required>
+                    <textarea name="body" placeholder="Write your message here..." required></textarea>
+                    <div class="detail-actions">
+                        <button type="submit" name="action" value="send" class="btn btn-primary">Send</button>
+                        <button type="submit" name="action" value="draft" class="btn btn-secondary">Save Draft</button>
+                        <a href="/messages_app/inbox/" class="btn btn-danger">Discard</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            Compose — Fill in recipient, subject and body then click Send.
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
