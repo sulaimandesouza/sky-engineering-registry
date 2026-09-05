@@ -1,54 +1,141 @@
-# CW2SoftwareGroupProject
+# Sky Engineering Registry
 
-A Django web application built for the 5COSC021W Software Development Group Project.
+A full-stack Django web application developed as a university group project to provide a centralised registry for engineering teams, staff, skills and team dependencies.
 
-## 👥 Team Members & Branches
+The application replaces a manual spreadsheet-based approach with a web-based system featuring authentication, role-based access, team management and relational data.
 
-| Student | Module   | Branch        |
-|--------|----------|--------------|
-| S1     | Teams    | s1-teams     |
-| S3     | Messages | s3-messages  |
-| S4     | Schedule | s4-schedule  |
-| S5     | Reports  | s5-reports   |
+## Features
 
-# Installing Weasyprint on Windows:
-Install Python Install Manager: https://apps.microsoft.com/detail/9nq7512cxl7t?hl=en-GB&gl=GB<br>
-Install MSYS2: https://www.msys2.org/#installation<br>
-Inside of the MSYS2 shell, execeute: `pacman -S mingw-w64-x86_64-pango`<br>
-Launch Windows Command Prompt, and input:<br>
-`python -m venv venv
-venv\Scripts\activate.bat
-python -m pip install weasyprint
-python -m weasyprint --info`<br>
+* Team directory with search functionality
+* Team profiles containing:
 
-# Installing Weasyprint on MacOS:
-Install Homebrew using the link here:<br> https://brew.sh/ <br>
-Inside of Homebrew, Run the Command:<br> `brew install weasyprint`
+  * Department
+  * Team leader
+  * Engineers
+  * Skills
+  * Team email
+  * Active/inactive status
+  * Upstream and downstream team dependencies
+* User authentication and role-based access control
+* Relational data management using Django ORM
+* SQLite database for local development
+* Responsive web interface
+* Modular Django application structure
 
-# How To Run:
-1. Clone the repository<br>
-`git clone https://github.com/Sharjeel-labs/SoftwareGroupProjectCW2.git`
+## Technology
 
-3. Install dependencies:<br>
-   `pip install django`
-4. Load Model Data for Reports:<br>
-`python manage.py loaddata exampledata.json`
-5. Create a Super User with the following details:<br>
-   `py manage.py createsuperuser`<br>
-   `Username: Admin`<br>
-   `Email: Admin@westminster.ac.uk`<br>
-   `Password: SuperAdmin123`
-   
-7. Run migrations:<br>
-  ` python manage.py migrate`
-8. Start server:<br>
-  `python manage.py runserver`<br>
-  
-If you get an error message when attempting to launch the server, launch with this:<br>
-`python manage.py runserver 8080`
+* **Backend:** Python, Django
+* **Database:** SQLite
+* **Frontend:** HTML, CSS, Bootstrap
+* **Development:** Git, GitHub
 
-8. Open in web browser:<br>
-   http://127.0.0.1:8080/
+## Project Structure
 
-   ## Branching Strategy
-Each team member works on feature branches (e.g. s3-messages) and merges via pull requests.
+```text
+skyeng/
+├── accounts/         # A # Authentication and user management
+|-- messages_app/        # Messaging functionality
+├── reports_app/      # Reports functionality
+├── schedule_app/     # Schedule functionality
+├─teams_app/           # Team directory and team management
+├─skyeng/              # Django project configuration
+├─static/              # CSS and image assets
+├─templates/           # Shared templates
+├─manage.py
+├─requirements.txt
+└── README.md
+```
+
+## My Contribution
+
+This was a university group project developed collaboratively using Git and feature branches.
+
+My primary responsibility was the **Teams** functionality. I worked on the team's data model and the implementation of the team directory and team detail views.
+
+My work included:
+
+* Designing and implementing the `Department`, `Team` and `Engineer` models
+* Implementing relationships between teams, departments and engineers using Django ORM
+* Implementing team search functionality
+* Developing the team directory and team detail pages
+* Displaying team members, skills and team leadership information
+* Implementing upstream and downstream team dependency relationships
+* Adding team status and contact information
+* Creating reusable demo data through Django fixtures
+* Working with Git feature branches and integrating changes into the group repository
+
+## Running Locally
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/sulaimandesouza/sky-engineering-registry.git
+cd sky-engineering-registry/skyeng
+```
+
+### 2. Create a virtual environment
+
+macOS/Linux:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Windows:
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### 3. Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Apply migrations
+
+```bash
+python manage.py migrate
+```
+
+### 5. Load demo team data
+
+```bash
+python manage.py loaddata teams_demo.json
+```
+
+This loads example departments, teams and engineers used to demonstrate the Teams functionality.
+
+### 6. Start the development server
+
+```bash
+python manage.py runserver
+```
+
+The application will normally be available at:
+
+```text
+http://127.0.0.1:8000/
+```
+
+## Demo Data
+
+The repository includes a Django fixture containing example engineering departments, teams and engineers.
+
+The fixture can be loaded with:
+
+```bash
+python manage.py loaddata teams_demo.json
+```
+
+The database itself is intentionally excluded from version control. This allows each developer to create a fresh local database using the project's migrations and demo fixture.
+
+## Project Context
+
+This application was developed for the **5COSC021W Software Development Group Project** at the University of Westminster.
+
+The project was developed collaboratively using Git, with team members working on separate application areas and integrating their work into the main branch.
+
