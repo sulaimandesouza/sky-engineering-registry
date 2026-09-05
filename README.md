@@ -33,17 +33,17 @@ The application replaces a manual spreadsheet-based approach with a web-based sy
 
 ```text
 skyeng/
-├── accounts/         # A # Authentication and user management
-|-- messages_app/        # Messaging functionality
-├── reports_app/      # Reports functionality
-├── schedule_app/     # Schedule functionality
-├─teams_app/           # Team directory and team management
-├─skyeng/              # Django project configuration
-├─static/              # CSS and image assets
-├─templates/           # Shared templates
-├─manage.py
-├─requirements.txt
-└── README.md
+├── accounts/            # Authentication and user management
+├── messages_app/        # Messaging functionality
+├── reports_app/         # Reports functionality
+├── schedule_app/        # Schedule functionality
+├── teams_app/           # Team directory and team management
+├── skyeng/              # Django project configuration
+├── static/              # CSS and image assets
+├── templates/           # Shared templates
+├── manage.py
+├── requirements.txt
+├── README.md
 ```
 
 ## My Contribution
